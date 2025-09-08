@@ -1,110 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WACO TOOL OVERHANG CALCULATOR</title>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>WACO TOOL OVERHANG CALCULATOR</title>  
+  <style>  
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');  body {  
+  font-family: 'Rajdhani', sans-serif;  
+  display: flex;  
+  justify-content: center;  
+  align-items: center;  
+  min-height: 100vh;  
+  margin: 0;  
+  background-color: #7DA27D; /* Lighter Machine Green */  
+  border: 8px double #888; /* Gray border, smaller size */  
+  box-sizing: border-box;  
+  padding: 20px;  
+}  
 
-  <!-- Manifest link -->
-  <link rel="manifest" href="manifest.json">
+.container {  
+  background-color: white;  
+  padding: 30px;  
+  border-radius: 15px;  
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);  
+  text-align: center;  
+  width: 95%;  
+  max-width: 500px;  
+}  
 
-  <!-- Theme color -->
-  <meta name="theme-color" content="#7DA27D">
+h2 {  
+  margin-top: 0;  
+  font-family: 'Orbitron', sans-serif;  
+  font-size: 28px;  
+  color: #2c3e50;  
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);  
+  letter-spacing: 1.5px;  
+}  
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap');
-    /* same CSS as before... */
-  </style>
-</head>
-<body>
+.notes {  
+  background-color: #ffcccc;  
+  border: 2px solid red;  
+  border-radius: 8px;  
+  padding: 12px;  
+  margin-bottom: 20px;  
+  text-align: center;  
+  font-size: 16px;  
+  color: red;  
+  font-weight: bold;  
+}  
 
-<div class="container">
-  <h2>WACO TOOL OVERHANG CALCULATOR</h2>
+.notes p {  
+  margin: 6px 0;  
+  text-transform: uppercase; /* Capital letters */  
+  font-style: italic;  
+}  
 
-  <!-- Important Notes -->
-  <div class="notes">
-    <p><b><i>1. ALWAYS USE WITH ATTACHMENT NO. 1 AND 3</i></b></p>
-    <p><b><i>2. THIS IS THEORETICAL ONLY. ALWAYS CHECK PHYSICALLY</i></b></p>
-  </div>
+.input-group {  
+  margin-bottom: 20px;  
+  text-align: left;  
+}  
 
-  <div class="input-group">
-    <label for="safeDia">Safe Dia Value:</label>
-    <input type="number" id="safeDia" placeholder="e.g. 750" step="0.1">
-  </div>
-  <div class="input-group">
-    <label for="endDia">End Dia Value:</label>
-    <input type="number" id="endDia" placeholder="e.g. 800.5" step="0.1">
-  </div>
-  <button onclick="calculate()">CALCULATE</button>
-  <p id="result">Result will appear here</p>
+label {  
+  display: block;  
+  margin-bottom: 6px;  
+  color: #333;  
+  font-weight: bold;  
+}  
 
-  <!-- Credits Line -->
-  <p class="credits">
-    credits to basic formula - nitin kumar | digitaly convert - raj shekhar | looks and apperance - prem
-  </p>
-</div>
+input {  
+  width: 100%;  
+  padding: 12px;  
+  box-sizing: border-box;  
+  border: 2px solid #1565c0;  
+  border-radius: 6px;  
+  font-size: 18px;  
+  color: #0d47a1; /* Dark Blue Input Text */  
+  font-weight: bold;  
+}  
 
-<script>
-  function calculate() {
-    let safeDia = parseFloat(document.getElementById('safeDia').value);
-    let endDia = parseFloat(document.getElementById('endDia').value);
-    let resultElement = document.getElementById('result');
+button {  
+  width: 100%;  
+  padding: 14px;  
+  background-color: #007bff;  
+  color: white;  
+  border: none;  
+  border-radius: 8px;  
+  font-size: 20px;  
+  cursor: pointer;  
+  font-weight: bold;  
+  transition: all 0.3s ease;  
+}  
 
-    resultElement.style.color = "#333";
+button:hover {  
+  background-color: #004a99;  
+  transform: scale(1.05);  
+}  
 
-    if (isNaN(safeDia) || isNaN(endDia)) {
-      resultElement.textContent = "ERROR: PLEASE ENTER VALID NUMBERS.";
-      resultElement.style.color = "red";
-      return;
-    }
-    if (safeDia < 636) {
-      resultElement.textContent = "ERROR: SAFE DIA MUST BE AT LEAST 636.";
-      resultElement.style.color = "red";
-      return;
-    }
-    if (endDia <= safeDia) {
-      resultElement.textContent = "ERROR: END DIA MUST BE GREATER THAN SAFE DIA.";
-      resultElement.style.color = "red";
-      return;
-    }
+#result {  
+  margin-top: 20px;  
+  font-size: 22px;  
+  font-weight: bold;  
+  color: #333;  
+}  
 
-    let a = safeDia / 2;
-    let a_squared = a * a;
-    let result_minus_constant = a_squared - 50625;
+.credits {  
+  margin-top: 25px;  
+  font-size: 12px;  
+  font-weight: bold;  
+  text-transform: lowercase;  
+  color: #444;  
+}
 
-    if (result_minus_constant < 0) {
-      resultElement.textContent = "ERROR: INVALID SAFE DIA CALCULATION.";
-      resultElement.style.color = "red";
-      return;
-    }
-
-    let squareRootResult = Math.sqrt(result_minus_constant);
-    let finalCalculation = a - squareRootResult;
-
-    let endHalf = endDia / 2;
-    let safeHalf = safeDia / 2;
-    let subtractionResult = endHalf - safeHalf;
-
-    let grandTotal = finalCalculation + subtractionResult;
-
-    if (grandTotal < 0) {
-      resultElement.textContent = "ERROR: PLEASE INPUT CORRECT SAFE DIA AND END DIA.";
-      resultElement.style.color = "red";
-    } else {
-      resultElement.textContent = "TOTAL TOOL OVERHANG INCLUDING CASSATE: " + grandTotal.toFixed(2);
-      resultElement.style.color = "green";
-    }
-  }
-
-  // ✅ Register Service Worker
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(reg => console.log("Service Worker Registered", reg))
-        .catch(err => console.log("SW registration failed", err));
-    });
-  }
-</script>
-
-</body>
+  </style>  
+</head>  
+<body>  <div class="container">  
+  <h2>WACO TOOL OVERHANG CALCULATOR</h2>    <!-- Important Notes -->    <div class="notes">  
+    <p><b><i>1. ALWAYS USE WITH ATTACHMENT NO. 1 AND 3</i></b></p>  
+    <p><b><i>2. THIS IS THEORETICAL ONLY. ALWAYS CHECK PHYSICALLY</i></b></p>  
+  </div>    <div class="input-group">  
+    <label for="safeDia">Safe Dia Value:</label>  
+    <input type="number" id="safeDia" placeholder="e.g. 750" step="0.1">  
+  </div>  
+  <div class="input-group">  
+    <label for="endDia">End Dia Value:</label>  
+    <input type="number" id="endDia" placeholder="e.g. 800.5" step="0.1">  
+  </div>  
+  <button onclick="calculate()">CALCULATE</button>  
+  <p id="result">Result will appear here</p>    <!-- Credits Line -->    <p class="credits">  
+    credits to basic formula - nitin kumar | digitaly convert - raj shekhar | looks and apperance - prem  
+  </p>  
+</div>  <script>  
+  function calculate() {  
+    let safeDia = parseFloat(document.getElementById('safeDia').value);  
+    let endDia = parseFloat(document.getElementById('endDia').value);  
+    let resultElement = document.getElementById('result');  
+  
+    // Reset default color  
+    resultElement.style.color = "#333";  
+  
+    // Validation checks  
+    if (isNaN(safeDia) || isNaN(endDia)) {  
+      resultElement.textContent = "ERROR: PLEASE ENTER VALID NUMBERS.";  
+      resultElement.style.color = "red";  
+      return;  
+    }  
+  
+    if (safeDia < 636) {  
+      resultElement.textContent = "ERROR: SAFE DIA MUST BE AT LEAST 636.";  
+      resultElement.style.color = "red";  
+      return;  
+    }  
+  
+    if (endDia <= safeDia) {  
+      resultElement.textContent = "ERROR: END DIA MUST BE GREATER THAN SAFE DIA.";  
+      resultElement.style.color = "red";  
+      return;  
+    }  
+  
+    // First part of the calculation  
+    let a = safeDia / 2;  
+    let a_squared = a * a;  
+    let result_minus_constant = a_squared - 50625;  
+  
+    if (result_minus_constant < 0) {  
+      resultElement.textContent = "ERROR: INVALID SAFE DIA CALCULATION.";  
+      resultElement.style.color = "red";  
+      return;  
+    }  
+  
+    let squareRootResult = Math.sqrt(result_minus_constant);  
+    let finalCalculation = a - squareRootResult;  
+  
+    // Second part  
+    let endHalf = endDia / 2;  
+    let safeHalf = safeDia / 2;  
+    let subtractionResult = endHalf - safeHalf;  
+  
+    // Final result  
+    let grandTotal = finalCalculation + subtractionResult;  
+  
+    if (grandTotal < 0) {  
+      resultElement.textContent = "ERROR: PLEASE INPUT CORRECT SAFE DIA AND END DIA.";  
+      resultElement.style.color = "red";  
+    } else {  
+      resultElement.textContent = "TOTAL TOOL OVERHANG INCLUDING CASSATE: " + grandTotal.toFixed(2);  
+      resultElement.style.color = "green";  
+    }  
+  }  
+</script>  </body>  
 </html>
