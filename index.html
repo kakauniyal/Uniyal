@@ -75,7 +75,7 @@
       font-weight: bold;
     }
 
-    /* Change type from number to text */
+    /* Target type="text" inputs */
     input[type="text"] {
       width: 100%;
       padding: 12px;
@@ -107,9 +107,14 @@
 
     #result {
       margin-top: 20px;
-      font-size: 22px;
+      font-size: 20px; /* Slightly reduced font size for multi-line output */
       font-weight: bold;
       color: #333;
+    }
+    
+    #result b { /* Style for bold numbers in the result */
+        color: #004a99;
+        font-size: 22px;
     }
 
     .credits {
@@ -143,72 +148,68 @@
     </p>
   </div>
   <script>
-    // Helper for showing results
+    // Helper for showing results (standard text output)
     function showResult(message, color = "#333") {
       let resultElement = document.getElementById('result');
+      // Use textContent for standard error/reset messages to prevent script injection
       resultElement.textContent = message;
       resultElement.style.color = color;
+      resultElement.style.fontSize = "22px"; // Revert to standard size for errors
     }
 
     function calculate() {
       let safeDiaInput = document.getElementById('safeDia');
       let endDiaInput = document.getElementById('endDia');
       
-      // Get the raw string values (which can now be expressions like 950+35+35)
       let safeDiaExpression = safeDiaInput.value;
       let endDiaExpression = endDiaInput.value;
       
-      let safeDia;
-      let endDia;
+      // Variables to hold the final *calculated* numerical values
+      let safeDia_num; 
+      let endDia_num;
 
       // Reset to default
       showResult("Result will appear here", "#333");
 
-      // Check for missing inputs
       if (!safeDiaExpression || !endDiaExpression) {
         showResult("ERROR: BOTH FIELDS ARE REQUIRED.", "red");
         return;
       }
       
-      // --- START: Expression Evaluation (The main correction) ---
+      // --- CORRECTION 2: Expression Evaluation (Uses eval to calculate the final number) ---
       try {
-        // Use eval() to calculate the final number from the string expression
-        // e.g., '950+35+35' becomes 1020
-        safeDia = eval(safeDiaExpression);
-        endDia = eval(endDiaExpression);
+        safeDia_num = eval(safeDiaExpression);
+        endDia_num = eval(endDiaExpression);
         
-        // Final check to ensure the result is a number
-        if (typeof safeDia !== 'number' || isNaN(safeDia) || typeof endDia !== 'number' || isNaN(endDia)) {
-             // This catches cases where eval might return non-numbers or if the expression was invalid
+        if (typeof safeDia_num !== 'number' || isNaN(safeDia_num) || typeof endDia_num !== 'number' || isNaN(endDia_num)) {
              showResult("ERROR: INVALID EXPRESSION OR RESULT IS NOT A NUMBER.", "red");
              return;
         }
 
       } catch (e) {
-        // Catches errors during eval (e.g., incomplete expression like '950+')
         showResult("ERROR: INVALID MATHEMATICAL EXPRESSION.", "red");
         return;
       }
-      // --- END: Expression Evaluation ---
+      // --- End Evaluation ---
 
-      // Validation checks
-      if (safeDia < 636) {
-        showResult("ERROR: SAFE DIA MUST BE AT LEAST 636.", "red");
+      // Validation checks (using the now-numeric safeDia_num and endDia_num)
+      if (safeDia_num < 636) {
+        showResult("ERROR: SAFE DIA MUST BE AT LEAST 636. Current Value: " + safeDia_num.toFixed(2), "red");
         return;
       }
 
-      if (safeDia <= 0 || endDia <= 0) {
-        showResult("ERROR: INPUTS MUST BE POSITIVE NUMBERS.", "red");
+      if (safeDia_num <= 0 || endDia_num <= 0) {
+        showResult("ERROR: INPUTS MUST BE POSITIVE NUMBERS. Safe: " + safeDia_num.toFixed(2) + ", End: " + endDia_num.toFixed(2), "red");
         return;
       }
 
-      if (endDia <= safeDia) {
-        showResult("ERROR: END DIA MUST BE GREATER THAN SAFE DIA.", "red");
+      if (endDia_num <= safeDia_num) {
+        showResult("ERROR: END DIA (" + endDia_num.toFixed(2) + ") MUST BE GREATER THAN SAFE DIA (" + safeDia_num.toFixed(2) + ").", "red");
         return;
       }
 
-      // Calculation (The core logic)
-      let a = safeDia / 2;
+      // --- Calculation (Using the numerical values) ---
+      let a = safeDia_num / 2;
       let a_squared = a * a;
       let constant = 225 * 225; // 50625
       let result_minus_constant = a_squared - constant;
@@ -221,16 +222,25 @@
       let squareRootResult = Math.sqrt(result_minus_constant);
       let finalCalculation = a - squareRootResult;
 
-      let endHalf = endDia / 2;
-      let safeHalf = safeDia / 2;
+      let endHalf = endDia_num / 2;
+      let safeHalf = safeDia_num / 2;
       let subtractionResult = endHalf - safeHalf;
 
       let grandTotal = finalCalculation + subtractionResult;
 
+      // --- Displaying the Result with Expression (The second part of CORRECTION 2) ---
       if (grandTotal < 0) {
         showResult("ERROR: PLEASE INPUT CORRECT SAFE DIA AND END DIA.", "red");
       } else {
-        showResult("TOTAL TOOL OVERHANG INCLUDING CASSATE: " + grandTotal.toFixed(2), "green");
+        // Use innerHTML to render formatted HTML (line breaks and bold tags)
+        let finalMessage = "TOTAL TOOL OVERHANG INCLUDING CASSATE: <b>" + grandTotal.toFixed(2) + "</b><br><br>" +
+                           "**Calculated Safe Dia:** " + safeDiaExpression + " = <b>" + safeDia_num.toFixed(2) + "</b><br>" +
+                           "**Calculated End Dia:** " + endDiaExpression + " = <b>" + endDia_num.toFixed(2) + "</b>";
+        
+        let resultElement = document.getElementById('result');
+        resultElement.innerHTML = finalMessage; // Using innerHTML to format the output
+        resultElement.style.color = "green";
+        resultElement.style.fontSize = "20px"; // Custom font size for this multi-line display
       }
     }
 
@@ -247,3 +257,4 @@
   </script>
 </body>
 </html>
+
