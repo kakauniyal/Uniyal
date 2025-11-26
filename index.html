@@ -75,7 +75,6 @@
       font-weight: bold;
     }
 
-    /* Target type="text" inputs */
     input[type="text"] {
       width: 100%;
       padding: 12px;
@@ -107,14 +106,26 @@
 
     #result {
       margin-top: 20px;
-      font-size: 20px; /* Slightly reduced font size for multi-line output */
-      font-weight: bold;
+      font-size: 20px; /* Base font size for multi-line output */
+      font-weight: normal; /* Reset to normal, let b and .cassate-result handle bolding */
       color: #333;
     }
     
-    #result b { /* Style for bold numbers in the result */
+    #result b { /* Style for bold numbers in the calculated inputs */
         color: #004a99;
-        font-size: 22px;
+        font-size: 22px; /* Slightly larger for emphasis */
+    }
+
+    /* NEW STYLE: For the cassate result */
+    .cassate-result {
+      color: red;
+      border: 2px solid red; /* Border all around */
+      padding: 5px 10px; /* Padding inside the border */
+      margin-top: 15px; /* Space from elements above */
+      display: inline-block; /* Allows border to wrap content */
+      font-weight: bold;
+      font-size: 18px; /* Slightly smaller than default result text */
+      border-radius: 5px; /* Slightly rounded corners for the border */
     }
 
     .credits {
@@ -148,13 +159,13 @@
     </p>
   </div>
   <script>
-    // Helper for showing results (standard text output)
+    // Helper for showing results (standard text output for errors/reset)
     function showResult(message, color = "#333") {
       let resultElement = document.getElementById('result');
-      // Use textContent for standard error/reset messages to prevent script injection
-      resultElement.textContent = message;
+      resultElement.textContent = message; // Use textContent for safety with dynamic messages
       resultElement.style.color = color;
-      resultElement.style.fontSize = "22px"; // Revert to standard size for errors
+      resultElement.style.fontSize = "22px"; // Default size for simple messages
+      resultElement.style.fontWeight = "bold"; // Default bold for simple messages
     }
 
     function calculate() {
@@ -164,19 +175,17 @@
       let safeDiaExpression = safeDiaInput.value;
       let endDiaExpression = endDiaInput.value;
       
-      // Variables to hold the final *calculated* numerical values
       let safeDia_num; 
       let endDia_num;
 
-      // Reset to default
-      showResult("Result will appear here", "#333");
+      // Reset for new calculation
+      showResult("Result will appear here", "#333"); 
 
       if (!safeDiaExpression || !endDiaExpression) {
         showResult("ERROR: BOTH FIELDS ARE REQUIRED.", "red");
         return;
       }
       
-      // --- CORRECTION 2: Expression Evaluation (Uses eval to calculate the final number) ---
       try {
         safeDia_num = eval(safeDiaExpression);
         endDia_num = eval(endDiaExpression);
@@ -190,9 +199,7 @@
         showResult("ERROR: INVALID MATHEMATICAL EXPRESSION.", "red");
         return;
       }
-      // --- End Evaluation ---
 
-      // Validation checks (using the now-numeric safeDia_num and endDia_num)
       if (safeDia_num < 636) {
         showResult("ERROR: SAFE DIA MUST BE AT LEAST 636. Current Value: " + safeDia_num.toFixed(2), "red");
         return;
@@ -208,7 +215,6 @@
         return;
       }
 
-      // --- Calculation (Using the numerical values) ---
       let a = safeDia_num / 2;
       let a_squared = a * a;
       let constant = 225 * 225; // 50625
@@ -228,19 +234,20 @@
 
       let grandTotal = finalCalculation + subtractionResult;
 
-      // --- Displaying the Result with Expression (The second part of CORRECTION 2) ---
       if (grandTotal < 0) {
         showResult("ERROR: PLEASE INPUT CORRECT SAFE DIA AND END DIA.", "red");
       } else {
-        // Use innerHTML to render formatted HTML (line breaks and bold tags)
-        let finalMessage = "TOTAL TOOL OVERHANG INCLUDING CASSATE: <b>" + grandTotal.toFixed(2) + "</b><br><br>" +
-                           "**Calculated Safe Dia:** " + safeDiaExpression + " = <b>" + safeDia_num.toFixed(2) + "</b><br>" +
-                           "**Calculated End Dia:** " + endDiaExpression + " = <b>" + endDia_num.toFixed(2) + "</b>";
-        
         let resultElement = document.getElementById('result');
-        resultElement.innerHTML = finalMessage; // Using innerHTML to format the output
-        resultElement.style.color = "green";
-        resultElement.style.fontSize = "20px"; // Custom font size for this multi-line display
+        resultElement.style.color = "#333"; // Default color for text not in specific spans/b tags
+        resultElement.style.fontSize = "20px"; // Base font size for the result block
+        resultElement.style.fontWeight = "normal"; // Ensure no inherited bolding affects the text
+
+        // Construct the message with the cassate result at the bottom and styled
+        let finalMessage = "Calculated Safe Dia: " + safeDiaExpression + " = <b>" + safeDia_num.toFixed(2) + "</b><br>" +
+                           "Calculated End Dia: " + endDiaExpression + " = <b>" + endDia_num.toFixed(2) + "</b><br>" +
+                           '<span class="cassate-result">TOTAL TOOL OVERHANG INCLUDING CASSATE: ' + grandTotal.toFixed(2) + '</span>';
+        
+        resultElement.innerHTML = finalMessage; // Use innerHTML to render the styled span and bold tags
       }
     }
 
@@ -257,4 +264,3 @@
   </script>
 </body>
 </html>
-
