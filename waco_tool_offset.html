@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="theme-color" content="#10243d">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WACO TOOL OFFSET</title>
+<style>
+:root{--bg:#e9edf2;--card:#fff;--bd:#c9d1db;--tx:#1a2330;--mut:#5a6676;--inp:#fff;--head:#10243d;--pri:#1f4e8c;--priH:#17406f;--btn:#f3f5f8;--rowon:#dbe7f5;--c1:#0b6a9a;--c2:#a35a00;--c3:#1f4e8c;--c4:#1b7a4b;--c5:#6b3fa0;--rd:#b3202f;--rdbg:#fbeaec;--okbg:#e3f3ea;--ok:#146c3f;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d121a;--card:#151c27;--bd:#2a3545;--tx:#e6ebf2;--mut:#8f9bad;--inp:#0d121a;--head:#0a1624;--btn:#1d2634;--rowon:#1b2f4c;--c1:#5cc0ee;--c2:#f0b24a;--c3:#7fb0ee;--c4:#5fd096;--c5:#bb9af0;--rd:#f08a96;--rdbg:#2a1217;--okbg:#10291d;--ok:#6fdca3;color-scheme:dark}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:13px;padding-bottom:30px}
+.num{font-family:ui-monospace,Menlo,Consolas,monospace}
+.w{max-width:440px;margin:0 auto;padding:0 10px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--head);border-bottom:3px solid var(--pri);padding:8px 0;color:#fff}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--head);z-index:10}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+h1{font-size:14px;margin:0;letter-spacing:1.2px;font-weight:700}
+button,select,input{font:inherit;color:inherit}button{cursor:pointer}
+.btn{background:var(--btn);border:1px solid var(--bd);border-radius:4px;padding:8px 10px;font-size:12px;font-weight:600}
+a.btn{text-decoration:none;display:inline-block}
+header .btn{background:transparent;border-color:#ffffff55;color:#fff;padding:5px 9px;font-size:11px}
+.pri{background:var(--pri);border-color:var(--pri);color:#fff}.pri:active{background:var(--priH)}
+.red{background:var(--rdbg);border-color:var(--rd);color:var(--rd)}
+#delta{display:none;margin-top:6px;font-size:11px;color:#c3cedd}
+#delta b{color:#fff;background:#ffffff1f;border:1px solid #ffffff44;border-radius:3px;padding:2px 8px;font-size:12px}
+.sec{background:var(--card);border:1px solid var(--bd);border-top:2px solid var(--bd);border-radius:4px;padding:10px;margin-top:8px}
+.lb{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:5px}
+.bd{font-size:11px;color:var(--mut);margin-bottom:4px;display:block}
+select{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:9px 8px;font-size:13px;font-weight:600}
+.nav{display:grid;grid-template-columns:44px 1fr 44px;gap:6px}
+.big{display:flex;gap:6px;align-items:center}
+.big input{flex:1;min-width:0;background:var(--inp);border:1px solid var(--bd);border-left:4px solid currentColor;border-radius:4px;padding:6px 10px;font-size:26px;font-weight:700;text-align:right;outline:none}
+.cp{background:var(--btn);border:1px solid var(--bd);border-radius:4px;padding:10px;font-size:14px}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.c4{color:var(--c4)}.c5{color:var(--c5)}
+.big input{color:var(--tx)}
+.chips{display:flex;gap:6px;margin-bottom:7px}
+.chip{flex:1;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:8px 4px;font-size:14px;font-weight:700}
+.chip.on.p{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.chip.on.s{background:#ece4f6;border-color:var(--c5);color:var(--c5)}
+.chip.on.j{background:var(--rdbg);border-color:var(--rd);color:var(--rd)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip.on.s{background:#26193d}}
+.mid{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:8px 10px;font-size:16px;font-weight:700;text-align:right;outline:none}
+.mid:focus,.big input:focus,select:focus,.jrow input:focus{border-color:var(--pri);box-shadow:0 0 0 1px var(--pri)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td,th{padding:6px 4px;border-bottom:1px solid var(--bd);text-align:right}
+td:first-child,th:first-child{text-align:left;font-size:11px}
+tr.on{background:var(--rowon)}th{font-size:10px;color:var(--mut);background:var(--btn);letter-spacing:.5px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#addForm{display:none;margin-top:8px;gap:6px}
+#addForm input{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:8px;font-size:14px;margin-top:2px}
+#addForm label{font-size:11px;color:var(--mut)}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translateX(-50%);background:var(--head);color:#fff;font-weight:600;font-size:12px;padding:8px 14px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
+.jrow{display:flex;align-items:center;gap:8px;margin-top:5px}
+.jl{width:80px;font-size:12px;font-weight:700;line-height:1.2}.jl small{display:block;font-size:8px;color:var(--mut);font-weight:600;letter-spacing:.3px}
+.jrow input{flex:1;min-width:0;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:6px 8px;font-size:14px;font-weight:600;text-align:right;outline:none}
+.jch .chip{padding:5px 4px;font-size:12px;min-width:0}
+.jfinal{margin-top:10px;background:var(--rdbg);border:1px solid var(--rd);border-left:4px solid var(--rd);border-radius:4px;padding:8px 10px;color:var(--rd);font-size:20px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.jfinal .t{font-size:10px;letter-spacing:.6px}.jfinal.err #jres{font-size:12px;text-align:right}
+.jfinal .cp{padding:6px 9px;color:var(--tx)}
+</style>
+</head>
+<body>
+<header><div class="w">
+  <div class="row"><a class="btn" href="index.html">‹ Back</a><h1 class="num">WACO · TOOL OFFSET</h1><button class="btn" onclick="resetAll()">↺ Reset</button></div>
+  <div id="delta" class="row"><span>Global Shift (Δ):</span><b id="deltaB" class="num">+0.000</b></div>
+</div></header>
+
+<main class="w">
+  <div class="sec">
+    <span class="lb c3">① Tool Select Karo</span>
+    <div class="nav"><button class="btn" onclick="step(-1)">◀</button><select id="sel" onchange="pick(this.value)"></select><button class="btn" onclick="step(1)">▶</button></div>
+  </div>
+
+  <div class="sec" id="main"></div>
+
+  
+
+  <div class="sec">
+    <span class="lb c4">② Packing Select Karo (mm)</span>
+    <div class="chips"><button class="chip p" data-v="0" onclick="pack('0')">0</button><button class="chip p" data-v="7.9" onclick="pack('7.9')">7.9</button><button class="chip p" data-v="15" onclick="pack('15')">15</button></div>
+    <input class="mid c4 num" id="pkIn" type="number" step="0.1" inputmode="decimal" placeholder="Custom packing" onfocus="this.select()" oninput="pack(this.value)" onblur="fix()">
+  </div>
+
+  <div class="sec">
+    <span class="lb c5">③ Shank Height Select Karo (mm)</span>
+    <div class="chips"><button class="chip s" data-v="25" onclick="shank('25')">25</button><button class="chip s" data-v="32" onclick="shank('32')">32</button><button class="chip s" data-v="40" onclick="shank('40')">40</button></div>
+    <input class="mid c5 num" id="shIn" type="number" step="0.5" inputmode="decimal" placeholder="Custom shank" onfocus="this.select()" oninput="shank(this.value)" onblur="fix()">
+  </div>
+
+  <div class="sec">
+    <span class="lb" style="color:var(--mut)">Sabhi Tools (tap karke select)</span>
+    <table><thead><tr><th>TOOL</th><th>D1</th><th>D2</th></tr></thead><tbody id="tbl"></tbody></table>
+    <button class="btn pri" style="width:100%;margin-top:10px" onclick="share()">📤 List Share Karo</button>
+  </div>
+
+  <div class="sec">
+    <div class="g2"><button class="btn pri" onclick="toggleAdd()">＋ Naya Tool</button><button class="btn red" onclick="del()">🗑 Tool Hatao</button></div>
+    <button class="btn" style="width:100%;margin-top:8px" onclick="changePin()">🔑 PIN Badlo</button>
+    <div id="addForm">
+      <div><label>Tool ka naam</label><input id="nName"></div>
+      <div class="g2">
+        <div><label>L2 - D1</label><input id="nD1" type="number" step="0.01" inputmode="decimal"></div>
+        <div><label>L2 - D2 (optional)</label><input id="nD2" type="number" step="0.01" inputmode="decimal"></div>
+        <div><label>Packing</label><input id="nPk" type="number" step="0.1" inputmode="decimal" value="0"></div>
+        <div><label>Shank</label><input id="nSh" type="number" step="0.5" inputmode="decimal" value="25"></div>
+      </div>
+      <div class="g2"><button class="btn pri" onclick="addTool()">Save</button><button class="btn" onclick="toggleAdd()">Cancel</button></div>
+    </div>
+  </div>
+  <div class="sec" style="border-top-color:var(--rd)">
+    <div class="row"><span class="lb" style="color:var(--rd);margin:0">📏 Job Height Calculation</span><button class="btn" style="padding:5px 9px" onclick="jClear()">Clear</button></div>
+    <div class="jrow"><span class="jl num">W<small>(MACHINE VALUE)</small></span><input id="jw" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
+    <div class="jrow"><span class="jl num">Z<small>(MACHINE VALUE)</small></span><input id="jz" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
+    <div class="jrow"><span class="jl num">− L2</span><input id="jl" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
+    <div class="jrow"><select id="jT" style="flex:1;font-size:12px;padding:7px"></select><button class="btn" onclick="jLfill()">L2 = D1 bharo</button></div>
+    <div class="jrow"><span class="jl num">− Filler</span><input id="jf" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
+    <div class="chips jch" style="padding-left:88px;margin-top:6px"><button class="chip" onclick="jAdd(0.08)">+0.08</button><button class="chip" onclick="jAdd(10)">+10</button><button class="chip" onclick="jAdd(12)">+12</button><button class="chip" onclick="jAdd(0)">0</button></div>
+    <div class="jrow"><span class="jl num">− Jack</span><input id="jj" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
+    <div class="jfinal num" id="jfin"><span class="t">JOB HEIGHT</span><span id="jres">–</span><button class="cp" onclick="jCopy()">⧉</button></div>
+  </div>
+</main>
+<div id="pinM" style="display:none;position:fixed;inset:0;background:#000a;z-index:20;align-items:center;justify-content:center;padding:20px"><div class="sec" style="width:100%;max-width:340px;margin:0"><span class="lb" id="pinT"></span><input id="pinI" class="mid num" type="password" inputmode="numeric" maxlength="8" placeholder="PIN"><div class="g2" style="margin-top:12px"><button class="btn pri" onclick="pinOk()">OK</button><button class="btn" onclick="pinNo()">Cancel</button></div></div></div>
+<div id="toast"></div>
+
+<script>
+const DEF=[
+["pclnl","PCLNL",260,null,0,40],["pclnr","PCLNR",199.84,null,0,40],
+["grooving_lh","GROOVING TOOL LH 12 (R21260387)",250.84,238.84,7.9,40],
+["grooving_rh","GROOVING TOOL RH 12 (R21260386)",221.84,209.84,0,40],
+["pdlnl","PDLNL",259.84,null,7.9,32],["pdlnr","PDLNR",199.84,null,7.9,32],
+["shoulder_16","SHOULDER DIA TOOL 16MM",242.74,227.14,15,25],
+["bottom_r5","BOTTOM RADIUS TOOL R5",237.58,null,7.9,25],
+["bottom_r4","BOTTOM RADIUS TOOL R4",236.58,null,7.9,25],
+["upper_t_8","UPPER T GROOVE 8mm",219.34,null,0,32],
+["lower_t_8","LOWER T GROOVE 8MM",259.84,null,7.9,32]];
+const KEY="vbm_offset_v5";
+let tools=[],delta=0,sel=null;
+
+function mk(id,name,d1,d2,pk,sh,g){
+  const m=d2!==null&&d2!==undefined&&!isNaN(d2);
+  return{id,name,multi:m,b1:d1-pk-sh-g,b2:m?d2-pk-sh-g:0,pk,sh,d1S:d1.toFixed(2),d2S:m?d2.toFixed(2):"",pkS:String(pk),shS:String(sh)};
+}
+function defaults(){tools=DEF.map(r=>mk(r[0],r[1],r[2],r[3],r[4],r[5],0));delta=0;sel=tools[0].id}
+function save(){jTsync();try{localStorage.setItem(KEY,JSON.stringify({tools,delta,sel}))}catch(e){}}
+function load(){
+  try{const s=localStorage.getItem(KEY);
+    if(s){const o=JSON.parse(s);if(o&&Array.isArray(o.tools)&&o.tools.length){tools=o.tools;delta=+o.delta||0;sel=o.sel;if(!find(sel))sel=tools[0].id;return}}
+  }catch(e){}
+  defaults();
+}
+const c1=t=>t.b1+t.pk+t.sh+delta, c2=t=>t.b2+t.pk+t.sh+delta;
+const find=id=>tools.find(t=>t.id===id), cur=()=>find(sel);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function build(){
+  document.getElementById('sel').innerHTML=tools.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
+  document.getElementById('sel').value=sel;
+  const t=cur();
+  let h=`<span class="lb" style="color:var(--tx);font-size:13px;border-bottom:1px solid var(--bd);padding-bottom:6px;margin-bottom:8px">${esc(t.name)}</span>
+  <span class="lb c1">L2 ${t.multi?'- D1 (Top Edge)':'(mm)'}</span><span class="bd">Body: ${t.b1.toFixed(2)} mm</span>
+  <div class="big c1"><input id="v1" class="num" type="number" step="0.01" inputmode="decimal" onfocus="this.select()" oninput="l2('d1',this.value)" onblur="fix()"><button class="cp" onclick="copyV('v1')">⧉</button></div>`;
+  if(t.multi)h+=`<div style="height:10px"></div><span class="lb c2">L2 - D2 (Bottom Edge)</span><span class="bd">Body: ${t.b2.toFixed(2)} mm</span>
+  <div class="big c2"><input id="v2" class="num" type="number" step="0.01" inputmode="decimal" onfocus="this.select()" oninput="l2('d2',this.value)" onblur="fix()"><button class="cp" onclick="copyV('v2')">⧉</button></div>`;
+  document.getElementById('main').innerHTML=h;
+  document.getElementById('tbl').innerHTML=tools.map(x=>`<tr data-r="${x.id}" onclick="pick('${x.id}')"><td>${esc(x.name)}</td><td class="num" data-t1="${x.id}"></td><td class="num" data-t2="${x.id}"></td></tr>`).join('');
+  sync();
+}
+function sync(){
+  const t=cur();
+  const set=(id,v)=>{const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=v};
+  set('v1',t.d1S);if(t.multi)set('v2',t.d2S);set('pkIn',t.pkS);set('shIn',t.shS);
+  document.querySelectorAll('.chip.p').forEach(b=>b.classList.toggle('on',Math.abs(t.pk-parseFloat(b.dataset.v))<1e-9));
+  document.querySelectorAll('.chip.s').forEach(b=>b.classList.toggle('on',Math.abs(t.sh-parseFloat(b.dataset.v))<1e-9));
+  tools.forEach(x=>{
+    document.querySelector(`[data-t1="${x.id}"]`).textContent=c1(x).toFixed(2);
+    document.querySelector(`[data-t2="${x.id}"]`).textContent=x.multi?c2(x).toFixed(2):'–';
+    document.querySelector(`[data-r="${x.id}"]`).className=x.id===sel?'on':'';
+  });
+  const d=document.getElementById('delta');
+  if(Math.abs(delta)>0.0005){d.style.display='flex';document.getElementById('deltaB').textContent=(delta>0?'+':'')+delta.toFixed(3)+' mm'}else d.style.display='none';
+  save();
+}
+function pick(id){sel=id;build();window.scrollTo({top:0,behavior:'smooth'})}
+function step(d){const i=tools.findIndex(t=>t.id===sel);sel=tools[(i+d+tools.length)%tools.length].id;build()}
+function recalc(t){t.d1S=c1(t).toFixed(2);if(t.multi)t.d2S=c2(t).toFixed(2)}
+function pack(v){const t=cur();t.pkS=v;const p=parseFloat(v);t.pk=isNaN(p)?0:p;recalc(t);sync()}
+function shank(v){const t=cur();t.shS=v;const p=parseFloat(v);t.sh=isNaN(p)?0:p;recalc(t);sync()}
+function l2(edge,v){
+  const t=cur();if(edge==='d1')t.d1S=v;else t.d2S=v;
+  const n=parseFloat(v);if(isNaN(n))return;
+  delta=Math.round((n-((edge==='d1'?t.b1:t.b2)+t.pk+t.sh))*1000)/1000;
+  tools.forEach(x=>{if(!(x===t&&edge==='d1'))x.d1S=c1(x).toFixed(2);if(x.multi&&!(x===t&&edge==='d2'))x.d2S=c2(x).toFixed(2)});
+  sync();
+}
+function fix(){tools.forEach(x=>{x.pkS=String(x.pk);x.shS=String(x.sh);recalc(x)});sync()}
+function copyV(id){
+  const e=document.getElementById(id),v=e.value,ok=()=>toast('Copied: '+v);
+  const fb=()=>{e.select();try{document.execCommand('copy');ok()}catch(x){toast('Copy nahi hua')}};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(ok,fb);else fb();
+}
+function share(){
+  const s='WACO TOOL OFFSET - '+new Date().toLocaleDateString()+(Math.abs(delta)>0.0005?'\nShift: '+(delta>0?'+':'')+delta.toFixed(3)+' mm':'')+'\n\n'+
+    tools.map(t=>t.name+'\nL2 D1: '+c1(t).toFixed(2)+(t.multi?' | D2: '+c2(t).toFixed(2):'')+' | Pack '+t.pk+' | Shank '+t.sh).join('\n\n');
+  const cp=()=>{const ta=document.createElement('textarea');ta.value=s;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('List copy ho gayi')}catch(e){toast('Copy nahi hua')}ta.remove()};
+  if(navigator.share)navigator.share({text:s}).catch(cp);else cp();
+}
+function toggleAdd(){const f=document.getElementById('addForm');f.style.display=f.style.display==='grid'?'none':'grid'}
+function addTool(){
+  const name=document.getElementById('nName').value.trim().toUpperCase();
+  const d1=parseFloat(document.getElementById('nD1').value),v2=document.getElementById('nD2').value;
+  if(!name||isNaN(d1)){toast('Naam aur L2-D1 daalein');return}
+  const t=mk('c'+Date.now(),name,d1,v2===''?null:parseFloat(v2),parseFloat(document.getElementById('nPk').value)||0,parseFloat(document.getElementById('nSh').value)||0,delta);
+  tools.push(t);sel=t.id;['nName','nD1','nD2'].forEach(i=>document.getElementById(i).value='');
+  toggleAdd();build();toast('Tool jud gaya');
+}
+const hp=s=>{let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))%1000003;return String(h)};
+const getPin=()=>{try{return localStorage.getItem('vbm_pin')}catch(e){return null}};
+const putPin=v=>{try{localStorage.setItem('vbm_pin',hp(v))}catch(e){}};
+let pinCb=null;
+function askPin(title,cb){document.getElementById('pinT').textContent=title;const i=document.getElementById('pinI');i.value='';document.getElementById('pinM').style.display='flex';pinCb=cb;setTimeout(()=>i.focus(),50)}
+function pinOk(){const v=document.getElementById('pinI').value;if(v.length<4){toast('Kam se kam 4 digit daalo');return}document.getElementById('pinM').style.display='none';const cb=pinCb;pinCb=null;if(cb)cb(v)}
+function pinNo(){document.getElementById('pinM').style.display='none';pinCb=null}
+function needPin(title,next){
+  const p=getPin();
+  if(!p){askPin('Pehle naya PIN set karo (4+ digit)',v=>{putPin(v);toast('PIN set ho gaya');next()});return}
+  askPin(title,v=>{if(hp(v)===p)next();else toast('Galat PIN')});
+}
+function changePin(){
+  const p=getPin();
+  const setNew=()=>askPin('Naya PIN daalo',v=>{putPin(v);toast('PIN badal gaya')});
+  if(!p){setNew();return}
+  askPin('Purana PIN daalo',v=>{if(hp(v)===p)setNew();else toast('Galat PIN')});
+}
+function del(){
+  if(tools.length<2){toast('Kam se kam 1 tool rakhein');return}
+  const t=cur();needPin('Tool hatane ke liye PIN daalo',()=>{if(confirm(t.name+' hatayein?')){tools=tools.filter(x=>x!==t);sel=tools[0].id;build();toast('Tool hat gaya')}});
+}
+function resetAll(){needPin('Reset ke liye PIN daalo',()=>{if(confirm('Sab factory defaults par reset karein?')){defaults();build();toast('Reset done')}})}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;clearTimeout(tt);tt=setTimeout(()=>t.style.opacity=0,1800)}
+const JK='waco_jobheight_v2',JI=['jw','jz','jl','jf','jj'],JN={jw:'W',jz:'Z',jl:'L2',jf:'Filler',jj:'Jack'};
+const $j=id=>document.getElementById(id);
+const jv=id=>{const n=parseFloat($j(id).value);return isNaN(n)?0:n};
+const jfmt=n=>String(Math.round(n*1000)/1000);
+let jLast=null;
+function jhCalc(){
+  const miss=JI.filter(i=>$j(i).value==='').map(i=>JN[i]);
+  const f=$j('jfin'),r=$j('jres');
+  if(miss.length){r.textContent='ERROR: '+miss.join(', ')+' khali hai (zero daalo)';f.classList.add('err');jLast=null}
+  else{const d=jv('jw')+jv('jz')-jv('jl')-jv('jf')-jv('jj');r.textContent=jfmt(d);f.classList.remove('err');jLast=jfmt(d)}
+  try{localStorage.setItem(JK,JSON.stringify(JI.map(i=>$j(i).value)))}catch(e){}
+}
+function jAdd(n){$j('jf').value=n===0?'0':jfmt(jv('jf')+n);jhCalc()}
+function jTsync(){const s=$j('jT');if(!s)return;if(s.options.length===tools.length&&[...s.options].every((o,i)=>o.value===tools[i].id))return;const k=s.value;s.innerHTML=tools.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');s.value=find(k)?k:(find('pclnl')?'pclnl':tools[0].id)}
+function jLfill(){const t=find($j('jT').value);if(!t)return;$j('jl').value=jfmt(c1(t));jhCalc()}
+function jClear(){JI.forEach(i=>$j(i).value='');jhCalc()}
+function jCopy(){
+  if(jLast===null){toast('Pehle sab khane bharo');return}
+  const ta=document.createElement('textarea');ta.value=jLast;document.body.appendChild(ta);ta.select();
+  const ok=()=>{ta.remove();toast('Copied: '+jLast)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(jLast).then(ok,()=>{try{document.execCommand('copy')}catch(e){}ok()});
+  else{try{document.execCommand('copy')}catch(e){}ok()}
+}
+function jhInit(){try{const s=JSON.parse(localStorage.getItem(JK)||'[]');JI.forEach((i,k)=>{if(s[k]!==undefined)$j(i).value=s[k]})}catch(e){}jTsync();jhCalc()}
+load();jhInit();build();
+</script>
+</body>
+</html>
