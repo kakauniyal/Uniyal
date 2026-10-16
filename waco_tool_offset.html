@@ -1,68 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="theme-color" content="#10243d">
+<meta charset="UTF-8"><meta name="theme-color" content="#4caf50"><link rel="manifest" href="manifest.json">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>WACO TOOL OFFSET</title>
 <style>
-:root{--bg:#e9edf2;--card:#fff;--bd:#c9d1db;--tx:#1a2330;--mut:#5a6676;--inp:#fff;--head:#10243d;--pri:#1f4e8c;--priH:#17406f;--btn:#f3f5f8;--rowon:#dbe7f5;--c1:#0b6a9a;--c2:#a35a00;--c3:#1f4e8c;--c4:#1b7a4b;--c5:#6b3fa0;--rd:#b3202f;--rdbg:#fbeaec;--okbg:#e3f3ea;--ok:#146c3f;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d121a;--card:#151c27;--bd:#2a3545;--tx:#e6ebf2;--mut:#8f9bad;--inp:#0d121a;--head:#0a1624;--btn:#1d2634;--rowon:#1b2f4c;--c1:#5cc0ee;--c2:#f0b24a;--c3:#7fb0ee;--c4:#5fd096;--c5:#bb9af0;--rd:#f08a96;--rdbg:#2a1217;--okbg:#10291d;--ok:#6fdca3;color-scheme:dark}}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500;700&display=swap');
+:root{--bg:#7DA27D;--card:#fff;--bd:#b8c4d0;--tx:#333;--mut:#555;--inp:#fff;--pri:#007bff;--priH:#004a99;--btn:#007bff;--rowon:#dbe7f5;--c1:#0b6a9a;--c2:#a35a00;--c3:#1565c0;--c4:#1b7a4b;--c5:#6b3fa0;--rd:red;--rdbg:#ffcccc;--okbg:#e3f3ea;--ok:#146c3f;--blue:#1565c0;--navy:#2c3e50;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:13px;padding-bottom:30px}
-.num{font-family:ui-monospace,Menlo,Consolas,monospace}
-.w{max-width:440px;margin:0 auto;padding:0 10px}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--head);border-bottom:3px solid var(--pri);padding:8px 0;color:#fff}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--head);z-index:10}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Rajdhani',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:500;font-size:15px;border:8px double #888;min-height:100vh;padding:0 10px 30px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.num{font-family:'Rajdhani',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-weight:700}
+.w{max-width:500px;margin:0 auto}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 6px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-h1{font-size:14px;margin:0;letter-spacing:1.2px;font-weight:700}
+h1{font-family:'Orbitron',sans-serif;font-weight:600;font-size:12px;margin:0;letter-spacing:1px;color:var(--navy);text-shadow:1px 1px 3px rgba(0,0,0,.3);white-space:nowrap}
 button,select,input{font:inherit;color:inherit}button{cursor:pointer}
-.btn{background:var(--btn);border:1px solid var(--bd);border-radius:4px;padding:8px 10px;font-size:12px;font-weight:600}
+.btn{background:var(--btn);border:none;color:#fff;border-radius:8px;padding:9px 12px;font-size:14px;font-weight:700;transition:background .2s}
+.btn:active,.btn:hover{background:var(--priH)}
 a.btn{text-decoration:none;display:inline-block}
-header .btn{background:transparent;border-color:#ffffff55;color:#fff;padding:5px 9px;font-size:11px}
-.pri{background:var(--pri);border-color:var(--pri);color:#fff}.pri:active{background:var(--priH)}
-.red{background:var(--rdbg);border-color:var(--rd);color:var(--rd)}
-#delta{display:none;margin-top:6px;font-size:11px;color:#c3cedd}
-#delta b{color:#fff;background:#ffffff1f;border:1px solid #ffffff44;border-radius:3px;padding:2px 8px;font-size:12px}
-.sec{background:var(--card);border:1px solid var(--bd);border-top:2px solid var(--bd);border-radius:4px;padding:10px;margin-top:8px}
-.lb{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:5px}
-.bd{font-size:11px;color:var(--mut);margin-bottom:4px;display:block}
-select{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:9px 8px;font-size:13px;font-weight:600}
-.nav{display:grid;grid-template-columns:44px 1fr 44px;gap:6px}
+header .btn{padding:7px 11px;font-size:13px}
+.pri{background:var(--pri)}
+.red{background:var(--rdbg);border:2px solid var(--rd);color:var(--rd)}
+.red:active,.red:hover{background:#ffb3b3}
+#delta{display:none;margin-top:6px;font-size:13px;font-weight:700;color:var(--navy)}
+#delta b{color:#fff;background:var(--navy);border-radius:5px;padding:2px 9px;font-size:14px}
+.sec{background:var(--card);border-radius:15px;box-shadow:0 6px 15px rgba(0,0,0,.3);padding:14px;margin-top:12px}
+.lb{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px}
+.bd{font-size:13px;color:var(--mut);margin-bottom:5px;display:block}
+select{width:100%;background:var(--inp);border:2px solid var(--blue);border-radius:6px;padding:10px 8px;font-size:16px;font-weight:700;color:#0d47a1}
+.nav{display:grid;grid-template-columns:48px 1fr 48px;gap:6px}
 .big{display:flex;gap:6px;align-items:center}
-.big input{flex:1;min-width:0;background:var(--inp);border:1px solid var(--bd);border-left:4px solid currentColor;border-radius:4px;padding:6px 10px;font-size:26px;font-weight:700;text-align:right;outline:none}
-.cp{background:var(--btn);border:1px solid var(--bd);border-radius:4px;padding:10px;font-size:14px}
+.big input{flex:1;min-width:0;background:var(--inp);border:2px solid currentColor;border-radius:6px;padding:6px 10px;font-size:30px;font-weight:700;text-align:right;outline:none;color:#0d47a1}
+.cp{background:var(--btn);border:none;color:#fff;border-radius:8px;padding:12px;font-size:15px}
 .c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.c4{color:var(--c4)}.c5{color:var(--c5)}
-.big input{color:var(--tx)}
-.chips{display:flex;gap:6px;margin-bottom:7px}
-.chip{flex:1;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:8px 4px;font-size:14px;font-weight:700}
+.chips{display:flex;gap:6px;margin-bottom:8px}
+.chip{flex:1;background:var(--inp);border:2px solid var(--bd);border-radius:6px;padding:9px 4px;font-size:17px;font-weight:700;color:#0d47a1}
 .chip.on.p{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
 .chip.on.s{background:#ece4f6;border-color:var(--c5);color:var(--c5)}
 .chip.on.j{background:var(--rdbg);border-color:var(--rd);color:var(--rd)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip.on.s{background:#26193d}}
-.mid{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:8px 10px;font-size:16px;font-weight:700;text-align:right;outline:none}
-.mid:focus,.big input:focus,select:focus,.jrow input:focus{border-color:var(--pri);box-shadow:0 0 0 1px var(--pri)}
-table{width:100%;border-collapse:collapse;font-size:12px}
-td,th{padding:6px 4px;border-bottom:1px solid var(--bd);text-align:right}
-td:first-child,th:first-child{text-align:left;font-size:11px}
-tr.on{background:var(--rowon)}th{font-size:10px;color:var(--mut);background:var(--btn);letter-spacing:.5px}
+.mid{width:100%;background:var(--inp);border:2px solid var(--blue);border-radius:6px;padding:9px 10px;font-size:18px;font-weight:700;text-align:right;outline:none;color:#0d47a1}
+.mid:focus,.big input:focus,select:focus,.jrow input:focus,#addForm input:focus{box-shadow:0 0 0 2px #1565c055}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 4px;border-bottom:1px solid #dde3ea;text-align:right}
+td:first-child,th:first-child{text-align:left;font-size:13px}
+tr.on{background:var(--rowon)}th{font-size:12px;color:var(--navy);background:#eef2f7;letter-spacing:.5px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-#addForm{display:none;margin-top:8px;gap:6px}
-#addForm input{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:8px;font-size:14px;margin-top:2px}
-#addForm label{font-size:11px;color:var(--mut)}
-#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translateX(-50%);background:var(--head);color:#fff;font-weight:600;font-size:12px;padding:8px 14px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
-.jrow{display:flex;align-items:center;gap:8px;margin-top:5px}
-.jl{width:80px;font-size:12px;font-weight:700;line-height:1.2}.jl small{display:block;font-size:8px;color:var(--mut);font-weight:600;letter-spacing:.3px}
-.jrow input{flex:1;min-width:0;background:var(--inp);border:1px solid var(--bd);border-radius:4px;padding:6px 8px;font-size:14px;font-weight:600;text-align:right;outline:none}
-.jch .chip{padding:5px 4px;font-size:12px;min-width:0}
-.jfinal{margin-top:10px;background:var(--rdbg);border:1px solid var(--rd);border-left:4px solid var(--rd);border-radius:4px;padding:8px 10px;color:var(--rd);font-size:20px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.jfinal .t{font-size:10px;letter-spacing:.6px}.jfinal.err #jres{font-size:12px;text-align:right}
-.jfinal .cp{padding:6px 9px;color:var(--tx)}
+#addForm{display:none;margin-top:10px;gap:8px}
+#addForm input{width:100%;background:var(--inp);border:2px solid var(--blue);border-radius:6px;padding:8px;font-size:16px;font-weight:700;margin-top:2px;color:#0d47a1}
+#addForm label{font-size:13px;color:var(--mut);font-weight:700}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translateX(-50%);background:var(--navy);color:#fff;font-weight:700;font-size:14px;padding:9px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
+.jrow{display:flex;align-items:center;gap:8px;margin-top:6px}
+.jl{width:84px;font-size:15px;font-weight:700;line-height:1.1}.jl small{display:block;font-size:9px;color:var(--mut);font-weight:700;letter-spacing:.3px}
+.jrow input{flex:1;min-width:0;background:var(--inp);border:2px solid var(--blue);border-radius:6px;padding:6px 8px;font-size:18px;font-weight:700;text-align:right;outline:none;color:#0d47a1}
+.jch .chip{padding:6px 4px;font-size:14px;min-width:0}
+.jfinal{margin-top:12px;background:#fff;border:2px solid var(--rd);border-radius:5px;padding:8px 10px;color:var(--rd);font-size:24px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.jfinal .t{font-size:12px;letter-spacing:.6px}.jfinal.err{background:var(--rdbg)}.jfinal.err #jres{font-size:14px;text-align:right}
+.jfinal .cp{padding:7px 10px}
 </style>
 </head>
 <body>
 <header><div class="w">
-  <div class="row"><a class="btn" href="index.html">‹ Back</a><h1 class="num">WACO · TOOL OFFSET</h1><button class="btn" onclick="resetAll()">↺ Reset</button></div>
+  <div class="row"><a class="btn" href="index.html">‹ Back</a><h1 class="num">WACO TOOL OFFSET</h1><button class="btn" onclick="resetAll()">↺ Reset</button></div>
   <div id="delta" class="row"><span>Global Shift (Δ):</span><b id="deltaB" class="num">+0.000</b></div>
 </div></header>
 
@@ -108,14 +108,14 @@ tr.on{background:var(--rowon)}th{font-size:10px;color:var(--mut);background:var(
       <div class="g2"><button class="btn pri" onclick="addTool()">Save</button><button class="btn" onclick="toggleAdd()">Cancel</button></div>
     </div>
   </div>
-  <div class="sec" style="border-top-color:var(--rd)">
-    <div class="row"><span class="lb" style="color:var(--rd);margin:0">📏 Job Height Calculation</span><button class="btn" style="padding:5px 9px" onclick="jClear()">Clear</button></div>
+  <div class="sec" >
+    <div class="row"><span class="lb" style="color:var(--rd);margin:0">📏 Job Height Calculation</span><button class="btn" style="padding:6px 11px" onclick="jClear()">Clear</button></div>
     <div class="jrow"><span class="jl num">W<small>(MACHINE VALUE)</small></span><input id="jw" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
     <div class="jrow"><span class="jl num">Z<small>(MACHINE VALUE)</small></span><input id="jz" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
     <div class="jrow"><span class="jl num">− L2</span><input id="jl" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
-    <div class="jrow"><select id="jT" style="flex:1;font-size:12px;padding:7px"></select><button class="btn" onclick="jLfill()">L2 = D1 bharo</button></div>
+    <div class="jrow"><select id="jT" style="flex:1;font-size:14px;padding:8px"></select><button class="btn" onclick="jLfill()">L2 = D1 bharo</button></div>
     <div class="jrow"><span class="jl num">− Filler</span><input id="jf" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
-    <div class="chips jch" style="padding-left:88px;margin-top:6px"><button class="chip" onclick="jAdd(0.08)">+0.08</button><button class="chip" onclick="jAdd(10)">+10</button><button class="chip" onclick="jAdd(12)">+12</button><button class="chip" onclick="jAdd(0)">0</button></div>
+    <div class="chips jch" style="padding-left:92px;margin-top:6px"><button class="chip" onclick="jAdd(0.08)">+0.08</button><button class="chip" onclick="jAdd(10)">+10</button><button class="chip" onclick="jAdd(12)">+12</button><button class="chip" onclick="jAdd(0)">0</button></div>
     <div class="jrow"><span class="jl num">− Jack</span><input id="jj" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
     <div class="jfinal num" id="jfin"><span class="t">JOB HEIGHT</span><span id="jres">–</span><button class="cp" onclick="jCopy()">⧉</button></div>
   </div>
@@ -157,7 +157,7 @@ function build(){
   document.getElementById('sel').innerHTML=tools.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
   document.getElementById('sel').value=sel;
   const t=cur();
-  let h=`<span class="lb" style="color:var(--tx);font-size:13px;border-bottom:1px solid var(--bd);padding-bottom:6px;margin-bottom:8px">${esc(t.name)}</span>
+  let h=`<span class="lb" style="color:var(--navy);font-size:16px;border-bottom:2px solid #dde3ea;padding-bottom:6px;margin-bottom:8px">${esc(t.name)}</span>
   <span class="lb c1">L2 ${t.multi?'- D1 (Top Edge)':'(mm)'}</span><span class="bd">Body: ${t.b1.toFixed(2)} mm</span>
   <div class="big c1"><input id="v1" class="num" type="number" step="0.01" inputmode="decimal" onfocus="this.select()" oninput="l2('d1',this.value)" onblur="fix()"><button class="cp" onclick="copyV('v1')">⧉</button></div>`;
   if(t.multi)h+=`<div style="height:10px"></div><span class="lb c2">L2 - D2 (Bottom Edge)</span><span class="bd">Body: ${t.b2.toFixed(2)} mm</span>
