@@ -1,4 +1,4 @@
-i<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -27,6 +27,7 @@ i<!DOCTYPE html>
     }
 
     .container {
+      position: relative; /* needed for the small corner button */
       background-color: white;
       padding: 30px;
       border-radius: 15px;
@@ -34,6 +35,23 @@ i<!DOCTYPE html>
       text-align: center;
       width: 95%;
       max-width: 500px;
+    }
+
+    /* Small corner link to the WACO Offset page (does not affect layout) */
+    .offset-link {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      padding: 3px 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: .5px;
+      color: #1f4e8c;
+      border: 1px solid #1f4e8c;
+      border-radius: 4px;
+      text-decoration: none;
+      background: #fff;
     }
 
     h2 {
@@ -139,6 +157,7 @@ i<!DOCTYPE html>
 </head>
 <body>
   <div class="container">
+    <a class="offset-link" href="waco_tool_offset.html">WACO OFFSET ›</a>
     <h2>WACO TOOL OVERHANG CALCULATOR</h2>
     <div class="notes">
       <p><b><i>1. ALWAYS USE WITH ATTACHMENT NO. 1 AND 3</i></b></p>
