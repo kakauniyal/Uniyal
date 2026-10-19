@@ -55,6 +55,7 @@ tr.on{background:var(--rowon)}th{font-size:12px;color:var(--navy);background:#ee
 .jl{width:84px;font-size:15px;font-weight:700;line-height:1.1}.jl small{display:block;font-size:9px;color:var(--mut);font-weight:700;letter-spacing:.3px}
 .jrow input{flex:1;min-width:0;background:var(--inp);border:2px solid var(--blue);border-radius:6px;padding:6px 8px;font-size:18px;font-weight:700;text-align:right;outline:none;color:#0d47a1}
 .jch .chip{padding:6px 4px;font-size:14px;min-width:0}
+.jhint{margin:3px 0 0 92px;font-size:12px;font-weight:700;color:var(--mut);line-height:1.25}
 .jfinal{margin-top:12px;background:#fff;border:2px solid var(--rd);border-radius:5px;padding:8px 10px;color:var(--rd);font-size:24px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .jfinal .t{font-size:12px;letter-spacing:.6px}.jfinal.err{background:var(--rdbg)}.jfinal.err #jres{font-size:14px;text-align:right}
 .jfinal .cp{padding:7px 10px}
@@ -111,9 +112,8 @@ tr.on{background:var(--rowon)}th{font-size:12px;color:var(--navy);background:#ee
   <div class="sec" >
     <div class="row"><span class="lb" style="color:var(--rd);margin:0">📏 Job Height Calculation</span><button class="btn" style="padding:6px 11px" onclick="jClear()">Clear</button></div>
     <div class="jrow"><span class="jl num">W<small>(MACHINE VALUE)</small></span><input id="jw" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
-    <div class="jrow"><span class="jl num">Z<small>(MACHINE VALUE)</small></span><input id="jz" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
-    <div class="jrow"><span class="jl num">− L2</span><input id="jl" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
-    <div class="jrow"><select id="jT" style="flex:1;font-size:14px;padding:8px"></select><button class="btn" onclick="jLfill()">L2 = D1 bharo</button></div>
+    <div class="jrow"><span class="jl num">Z</span><input id="jz" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
+    <div class="jhint">Z value or work offset after scratching with filler on job top face</div>
     <div class="jrow"><span class="jl num">− Filler</span><input id="jf" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
     <div class="chips jch" style="padding-left:92px;margin-top:6px"><button class="chip" onclick="jAdd(0.08)">+0.08</button><button class="chip" onclick="jAdd(10)">+10</button><button class="chip" onclick="jAdd(12)">+12</button><button class="chip" onclick="jAdd(0)">0</button></div>
     <div class="jrow"><span class="jl num">− Jack</span><input id="jj" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
@@ -142,7 +142,7 @@ function mk(id,name,d1,d2,pk,sh,g){
   return{id,name,multi:m,b1:d1-pk-sh-g,b2:m?d2-pk-sh-g:0,pk,sh,d1S:d1.toFixed(2),d2S:m?d2.toFixed(2):"",pkS:String(pk),shS:String(sh)};
 }
 function defaults(){tools=DEF.map(r=>mk(r[0],r[1],r[2],r[3],r[4],r[5],0));delta=0;sel=tools[0].id}
-function save(){jTsync();try{localStorage.setItem(KEY,JSON.stringify({tools,delta,sel}))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({tools,delta,sel}))}catch(e){}}
 function load(){
   try{const s=localStorage.getItem(KEY);
     if(s){const o=JSON.parse(s);if(o&&Array.isArray(o.tools)&&o.tools.length){tools=o.tools;delta=+o.delta||0;sel=o.sel;if(!find(sel))sel=tools[0].id;return}}
@@ -238,7 +238,7 @@ function del(){
 }
 function resetAll(){needPin('Reset ke liye PIN daalo',()=>{if(confirm('Sab factory defaults par reset karein?')){defaults();build();toast('Reset done')}})}
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;clearTimeout(tt);tt=setTimeout(()=>t.style.opacity=0,1800)}
-const JK='waco_jobheight_v2',JI=['jw','jz','jl','jf','jj'],JN={jw:'W',jz:'Z',jl:'L2',jf:'Filler',jj:'Jack'};
+const JK='waco_jobheight_v3',JI=['jw','jz','jf','jj'],JN={jw:'W',jz:'Z',jf:'Filler',jj:'Jack'};
 const $j=id=>document.getElementById(id);
 const jv=id=>{const n=parseFloat($j(id).value);return isNaN(n)?0:n};
 const jfmt=n=>String(Math.round(n*1000)/1000);
@@ -247,12 +247,10 @@ function jhCalc(){
   const miss=JI.filter(i=>$j(i).value==='').map(i=>JN[i]);
   const f=$j('jfin'),r=$j('jres');
   if(miss.length){r.textContent='ERROR: '+miss.join(', ')+' khali hai (zero daalo)';f.classList.add('err');jLast=null}
-  else{const d=jv('jw')+jv('jz')-jv('jl')-jv('jf')-jv('jj');r.textContent=jfmt(d);f.classList.remove('err');jLast=jfmt(d)}
+  else{const d=jv('jw')+jv('jz')-jv('jf')-jv('jj');r.textContent=jfmt(d);f.classList.remove('err');jLast=jfmt(d)}
   try{localStorage.setItem(JK,JSON.stringify(JI.map(i=>$j(i).value)))}catch(e){}
 }
 function jAdd(n){$j('jf').value=n===0?'0':jfmt(jv('jf')+n);jhCalc()}
-function jTsync(){const s=$j('jT');if(!s)return;if(s.options.length===tools.length&&[...s.options].every((o,i)=>o.value===tools[i].id))return;const k=s.value;s.innerHTML=tools.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');s.value=find(k)?k:(find('pclnl')?'pclnl':tools[0].id)}
-function jLfill(){const t=find($j('jT').value);if(!t)return;$j('jl').value=jfmt(c1(t));jhCalc()}
 function jClear(){JI.forEach(i=>$j(i).value='');jhCalc()}
 function jCopy(){
   if(jLast===null){toast('Pehle sab khane bharo');return}
@@ -261,7 +259,7 @@ function jCopy(){
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(jLast).then(ok,()=>{try{document.execCommand('copy')}catch(e){}ok()});
   else{try{document.execCommand('copy')}catch(e){}ok()}
 }
-function jhInit(){try{const s=JSON.parse(localStorage.getItem(JK)||'[]');JI.forEach((i,k)=>{if(s[k]!==undefined)$j(i).value=s[k]})}catch(e){}jTsync();jhCalc()}
+function jhInit(){try{const s=JSON.parse(localStorage.getItem(JK)||'[]');JI.forEach((i,k)=>{if(s[k]!==undefined)$j(i).value=s[k]})}catch(e){}jhCalc()}
 load();jhInit();build();
 </script>
 </body>
