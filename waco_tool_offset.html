@@ -113,7 +113,7 @@ tr.on{background:var(--rowon)}th{font-size:12px;color:var(--navy);background:#ee
     <div class="row"><span class="lb" style="color:var(--rd);margin:0">📏 Job Height Calculation</span><button class="btn" style="padding:6px 11px" onclick="jClear()">Clear</button></div>
     <div class="jrow"><span class="jl num">W<small>(MACHINE VALUE)</small></span><input id="jw" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
     <div class="jrow"><span class="jl num">Z</span><input id="jz" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
-    <div class="jhint">Z value or work offset after scratching with filler on job top face</div>
+    <div class="jhint">Z value or work offset after scratching with filler on job top face (if L2 filled 260* with PCLNL properly clamped)<br>* L2 actual value need to identify with tool+head drawing</div>
     <div class="jrow"><span class="jl num">− Filler</span><input id="jf" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
     <div class="chips jch" style="padding-left:92px;margin-top:6px"><button class="chip" onclick="jAdd(0.08)">+0.08</button><button class="chip" onclick="jAdd(10)">+10</button><button class="chip" onclick="jAdd(12)">+12</button><button class="chip" onclick="jAdd(0)">0</button></div>
     <div class="jrow"><span class="jl num">− Jack</span><input id="jj" type="number" step="any" onfocus="this.select()" oninput="jhCalc()"></div>
